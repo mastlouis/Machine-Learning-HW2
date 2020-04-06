@@ -2,13 +2,18 @@ import numpy as np
 
 # Given an array of faces (N x M x M, where N is number of examples and M is number of pixes along each axis),
 # return a design matrix Xtilde ((M**2 + 1) x N) whose last row contains all 1s.
-def reshapeAndAppend1s (faces):
-    pass
+def reshapeAndAppend1s(faces):
+    faces = faces.reshape(-1, 48, 48)
+    faces = faces.T
+    faces = np.reshape(faces, (faces.shape[0] ** 2, faces.shape[2]))
+    ones = np.ones((faces.shape[1]))
+    faces = np.vstack((faces, ones))
+    return faces
 
 # Given a vector of weights w, a design matrix Xtilde, and a vector of labels y, return the (unregularized)
 # MSE.
-def fMSE (w, Xtilde, y):
-    pass
+def fMSE(w, Xtilde, y):
+    return 1 / 5000 * (y - Xtilde.T.dot(w)).T.dot(y - Xtilde.T.dot(w))
 
 # Given a vector of weights w, a design matrix Xtilde, and a vector of labels y, and a regularization strength
 # alpha (default value of 0), return the gradient of the (regularized) MSE loss.
@@ -16,8 +21,10 @@ def gradfMSE (w, Xtilde, y, alpha = 0.):
     pass
 
 # Given a design matrix Xtilde and labels y, train a linear regressor for Xtilde and y using the analytical solution.
-def method1 (Xtilde, y):
-    pass
+def method1(Xtilde, y):
+    Xtranspose = np.dot(Xtilde, Xtilde.T)
+    Xid = np.eye(Xtranspose.shape[0])
+    return np.dot(np.linalg.solve(Xtranspose, Xid), Xtilde.dot(y))
 
 # Given a design matrix Xtilde and labels y, train a linear regressor for Xtilde and y using gradient descent on fMSE.
 def method2 (Xtilde, y):
@@ -47,3 +54,5 @@ if __name__ == "__main__":
 
     # Report fMSE cost using each of the three learned weight vectors
     # ...
+    fMSE_ = fMSE(w1, Xtilde_tr, ytr)
+    print("Method one: ", fMSE_)

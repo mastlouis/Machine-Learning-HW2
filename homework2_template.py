@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 # Given an array of faces (N x M x M, where N is number of examples and M is number of pixes along each axis),
 # return a design matrix Xtilde ((M**2 + 1) x N) whose last row contains all 1s.
@@ -81,4 +82,23 @@ if __name__ == "__main__":
     print(w3)
 
     # Report fMSE cost using each of the three learned weight vectors
-    # ...
+    reg_gradient_desc = gradfMSE(w3, Xtilde_tr, ytr)
+    print("Regularized_gradient_descent_MSE_training: ", reg_gradient_desc)
+    print("One_shot_test_MSE: " + str(w1_test), "\n", "Simple_gradient_descent_test_MSE: " + str(w2_test),
+          "Regularized_gradient_"
+          "descent_MSE_training: "
+          + str(w3_test))
+    w1 = w1[:-1]
+    w1 = np.reshape(w1, (48, 48))
+    w2 = w2[:-1]
+    w3 = w3[:-1]
+    w2 = np.reshape(w2, (48, 48))
+    w3 = np.reshape(w3, (48, 48))
+    w2 = w2.T
+    w3 = w3.T
+    plt.imshow(w1)
+    plt.show()
+    plt.imshow(w2)
+    plt.show()
+    plt.imshow(w3)
+    plt.show()

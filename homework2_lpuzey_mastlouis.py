@@ -90,15 +90,7 @@ if __name__ == "__main__":
     print("Method three testing: ", fMSE(w3, Xtilde_te, yte))
     print(w3)
 
-    w1_test = fMSE(w1, Xtilde_te, yte)
-    w2_test = gradfMSE(w2, Xtilde_te, yte)
-    w3_test = gradfMSE(w3, Xtilde_te, yte)
-    # Report fMSE cost using each of the three learned weight vectors
-    reg_gradient_desc = gradfMSE(w3, Xtilde_tr, ytr)
-    print("Regularized_gradient_descent_MSE_training: ", reg_gradient_desc)
-    print("One_shot_test_MSE: " + str(w1_test))
-    print("Simple_gradient_descent_test_MSE: " + str(w2_test))
-    print("Regularized_gradient_descent_MSE_training: " + str(w3_test))
+    print("Regularized gradient descent RMSE: " + str(fMSE(w3, Xtilde_te, yte) ** (1/2)))
 
     display_image(w1[:-1])
     display_image(w2[:-1])
